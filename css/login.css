@@ -1,0 +1,182 @@
+/* ============================================================
+   ESTUDOTECA V11 - DESIGN DE ACESSO ELITE (REFINADO)
+   ============================================================ */
+
+.auth-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: var(--bg-app);
+}
+
+/* --- 1. LADO VISUAL (ESQUERDA) --- */
+.auth-visual {
+    flex: 1.2;
+    background-color: var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.visual-content {
+    position: relative;
+    z-index: 10;
+    max-width: 550px;
+}
+
+.auth-logo {
+    width: 180px;
+    margin-bottom: 50px;
+}
+
+.auth-visual h1 {
+    font-size: 3.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 25px;
+}
+
+.auth-visual p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 50px;
+    line-height: 1.6;
+}
+
+.auth-features {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.feat-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.feat-item i {
+    color: var(--primary);
+    font-size: 1.3rem;
+}
+
+/* --- 2. ELEMENTOS DECORATIVOS (BLOBS) --- */
+.aura-blob {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    z-index: 1;
+}
+
+.blob-1 {
+    background: var(--primary);
+    top: -200px;
+    left: -200px;
+    animation: floatBlob 20s infinite alternate;
+}
+
+.blob-2 {
+    background: var(--accent);
+    bottom: -200px;
+    right: -100px;
+    animation: floatBlob 25s infinite alternate-reverse;
+}
+
+@keyframes floatBlob {
+    from { transform: translate(0, 0); }
+    to { transform: translate(120px, 60px); }
+}
+
+/* --- 3. LADO DO FORMULÁRIO (DIREITA) --- */
+.auth-form-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    padding: 60px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-premium);
+}
+
+.form-header {
+    margin-bottom: 40px;
+}
+
+.form-header h2 {
+    font-size: 2.2rem;
+    color: var(--secondary);
+    letter-spacing: -1.2px;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Botão de Ação Auth */
+.btn-auth {
+    width: 100%;
+    padding: 18px;
+    background: var(--secondary);
+    color: white;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: var(--transition);
+    margin-top: 10px;
+}
+
+.btn-auth:hover {
+    background: #000;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-premium);
+}
+
+.form-footer {
+    margin-top: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.form-footer a {
+    color: var(--secondary);
+    font-weight: 800;
+    text-decoration: none;
+    border-bottom: 2px solid var(--primary);
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1150px) {
+    .auth-visual { display: none; }
+    .auth-form-side { width: 100%; background-color: var(--secondary); }
+    .form-box { 
+        box-shadow: none; 
+        padding: 40px;
+        width: 90%;
+    }
+}

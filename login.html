@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudoTeca | Acesso Elite</title>
+    
+    <!-- Tipografia e Ícones Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- CSS Modularizado -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <!-- Container de Notificações (Toasts) -->
+    <div id="toast-container"></div>
+
+    <main class="auth-container">
+        
+        <!-- LADO ESQUERDO: VISUAL & BRANDING SaaS -->
+        <section class="auth-visual">
+            <div class="visual-content">
+                <img src="assets/logo-branca.png" alt="EstudoTeca" class="auth-logo">
+                <h1>Sua aprovação começa <span class="text-gradient">aqui.</span></h1>
+                <p>A plataforma definitiva para estudantes que buscam excelência, tecnologia e resultados reais através de uma gestão acadêmica inteligente.</p>
+                
+                <div class="auth-features">
+                    <div class="feat-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Cronograma Inteligente Baseado em Dados</span>
+                    </div>
+                    <div class="feat-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Laboratório de Redação com Exportação PDF</span>
+                    </div>
+                    <div class="feat-item">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Dashboard de Performance de Nível Elite</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Elementos Decorativos de Fundo (Aura Blobs Animados) -->
+            <div class="aura-blob blob-1"></div>
+            <div class="aura-blob blob-2"></div>
+        </section>
+
+        <!-- LADO DIREITO: FORMULÁRIO DE ACESSO -->
+        <section class="auth-form-side">
+            <div class="form-box">
+                <header class="form-header">
+                    <h2 id="auth-title">Bem-vindo à Elite</h2>
+                    <p id="auth-subtitle">Insira suas credenciais para acessar a plataforma.</p>
+                </header>
+
+                <!-- Mock de Social Login (Visual Estético) -->
+                <button class="btn" style="width: 100%; padding: 16px; border: 1.5px solid #E2E8F0; background: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 700; color: var(--secondary); cursor: pointer; transition: 0.3s; margin-bottom: 30px;">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" width="20">
+                    Entrar com o Google
+                </button>
+
+                <div style="text-align: center; margin-bottom: 35px; position: relative;">
+                    <hr style="border: none; border-top: 1px solid #E2E8F0;">
+                    <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 0 15px; color: var(--text-muted); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">ou use seu e-mail</span>
+                </div>
+
+                <form id="authForm">
+                    <!-- Campo Nome (Apenas Cadastro) -->
+                    <div class="input-group hidden" id="nameGroup">
+                        <label>Nome Completo</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="regName" placeholder="Ex: Gabriel Silva">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>E-mail de Acesso</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" id="authEmail" required placeholder="seu@email.com">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <label style="margin-bottom: 0;">Senha</label>
+                            <a href="#" style="color: var(--accent); font-weight: 800; font-size: 0.75rem; text-decoration: none;" id="forgotLink">Esqueceu?</a>
+                        </div>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="authPass" required placeholder="••••••••">
+                            <button type="button" onclick="App.togglePassword()" style="position: absolute; right: 18px; top: 50%; transform: translateY(-50%); border: none; background: none; color: #94A3B8; cursor: pointer;">
+                                <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-auth" id="btnAuth">
+                        <span id="btnText">Acessar Plataforma</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <footer class="form-footer">
+                    <p id="toggleMsg">Não tem uma conta? <a href="javascript:void(0)" onclick="App.toggleMode()">Crie uma agora</a></p>
+                </footer>
+            </div>
+        </section>
+    </main>
+
+    <!-- Scripts do Sistema -->
+    <script src="js/services.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

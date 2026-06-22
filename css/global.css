@@ -1,0 +1,212 @@
+/* ============================================================
+   ESTUDOTECA V11 - ESTRUTURA DE TELA E NAVEGAÇÃO SaaS
+   ============================================================ */
+
+/* --- 1. ESTRUTURA BASE --- */
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--bg-app);
+}
+
+/* --- 2. SIDEBAR ELITE (NAVY DESIGN) --- */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background-color: var(--secondary);
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 35px 20px;
+    z-index: 1000;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-container {
+    padding: 0 15px 35px;
+    text-align: left;
+}
+
+.site-logo {
+    width: 145px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+/* Navegação Menu */
+.nav-menu {
+    flex-grow: 1;
+}
+
+.nav-label {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    margin: 25px 0 12px 15px;
+    display: block;
+    text-transform: uppercase;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 14px 18px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 6px;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 0.92rem;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    width: 100%;
+}
+
+.nav-link i {
+    font-size: 1.1rem;
+    width: 22px;
+    text-align: center;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+}
+
+.nav-link.active {
+    background: var(--primary);
+    color: var(--secondary);
+    font-weight: 800;
+    box-shadow: 0 10px 20px var(--primary-glow);
+}
+
+/* Perfil na Sidebar */
+.sidebar-bottom {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.user-sidebar-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.user-sidebar-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* --- 3. ÁREA PRINCIPAL (APP CONTAINER) --- */
+.app-container {
+    margin-left: 280px; 
+    width: calc(100% - 280px);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header Glassmorphism Premium */
+.main-header {
+    height: 80px;
+    background: var(--glass);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    position: sticky;
+    top: 0;
+    z-index: 900;
+}
+
+/* Barra de Pesquisa */
+.search-wrapper {
+    background: #F1F5F9;
+    padding: 10px 18px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 420px;
+    border: 1px solid transparent;
+    transition: var(--transition);
+}
+
+.search-wrapper:focus-within {
+    border-color: var(--primary);
+    background: white;
+    box-shadow: var(--shadow-md);
+}
+
+.search-wrapper input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+/* Perfil no Topo */
+.header-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.header-profile:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.header-profile span {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+/* --- 4. VIEWPORT DE CONTEÚDO --- */
+.main-content {
+    padding: 40px;
+    flex: 1;
+}
+
+.tab-content {
+    display: none; 
+    animation: tabEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes tabEnter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 5. RESPONSIVIDADE --- */
+@media (max-width: 1100px) {
+    .sidebar { width: 90px; padding: 30px 12px; }
+    .nav-label, .nav-link span, .user-info, .site-logo { display: none; }
+    .app-container { margin-left: 90px; width: calc(100% - 90px); }
+    .nav-link { justify-content: center; padding: 18px; }
+    .logo-container { text-align: center; }
+}

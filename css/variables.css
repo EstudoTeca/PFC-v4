@@ -1,0 +1,85 @@
+/* ============================================================
+   ESTUDOTECA V11 - DESIGN SYSTEM ELITE (REFINADO)
+   ============================================================ */
+
+:root {
+    /* --- CORES ELITE --- */
+    --primary: #FFB703;            
+    --primary-hover: #FB8500;      
+    --primary-glow: rgba(255, 183, 3, 0.35);
+    
+    --secondary: #023047;          
+    --secondary-light: #05445E;    
+    --accent: #219EBC;             
+    
+    /* --- FUNDOS SaaS --- */
+    --bg-app: #F4F7FA;             
+    --bg-card: #FFFFFF;            
+    --glass: rgba(255, 255, 255, 0.85);
+    --border: #E2E8F0;
+    
+    /* --- TEXTO --- */
+    --text-main: #0F172A;          
+    --text-body: #475569;          
+    --text-muted: #94A3B8;         
+    --text-on-dark: #F8FAFC;
+    
+    /* --- STATUS --- */
+    --success: #10B981;
+    --error: #F43F5E;
+    --warning: #F59E0B;
+
+    /* --- ELEVAÇÃO REFINADA --- */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-premium: 0 20px 40px rgba(2, 48, 71, 0.12);
+    --blur: blur(16px);
+
+    /* --- CURVAS --- */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+
+    /* --- TRANSIÇÕES --- */
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* --- FONTES --- */
+    --font-main: 'Inter', sans-serif;
+    --font-head: 'Plus Jakarta Sans', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-app);
+    color: var(--text-body);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, .font-head {
+    font-family: var(--font-head);
+    color: var(--text-main);
+    font-weight: 800;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Scrollbar Customizada */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+.hidden { display: none !important; }

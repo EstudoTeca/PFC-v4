@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EstudoTeca | Gestão Acadêmica Elite</title>
+    
+    <!-- Tipografia e Ícones Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- CSS Modularizado -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+    <!-- Loader de Sincronização -->
+    <div id="app-loader" class="modal-overlay active" style="background: var(--bg-app); z-index: 9999;">
+        <div style="text-align: center;">
+            <i class="fa-solid fa-circle-notch fa-spin fa-3x" style="color: var(--primary); margin-bottom: 20px;"></i>
+            <h2 class="font-head">Sincronizando Dados Elite...</h2>
+        </div>
+    </div>
+
+    <!-- Sistema de Alertas (Toasts) -->
+    <div id="toast-container"></div>
+
+    <!-- SIDEBAR SaaS -->
+    <aside class="sidebar">
+        <div class="sidebar-top">
+            <div class="logo-container">
+                <img src="assets/logo-branca.png" alt="EstudoTeca" class="site-logo">
+            </div>
+            
+            <nav class="nav-menu">
+                <small class="nav-label">PLATAFORMA</small>
+                <button class="nav-link" data-tab="inicio">
+                    <i class="fa-solid fa-house-chimney"></i> <span>Dashboard</span>
+                </button>
+                <button class="nav-link" data-tab="disciplinas">
+                    <i class="fa-solid fa-book-bookmark"></i> <span>Disciplinas</span>
+                </button>
+                <button class="nav-link" data-tab="vestibular">
+                    <i class="fa-solid fa-graduation-cap"></i> <span>Vestibular</span>
+                </button>
+                <button class="nav-link" data-tab="atividades">
+                    <i class="fa-solid fa-list-check"></i> <span>Praticar</span>
+                </button>
+                <button class="nav-link" data-tab="agenda">
+                    <i class="fa-solid fa-calendar-days"></i> <span>Cronograma</span>
+                </button>
+            </nav>
+        </div>
+
+        <div class="sidebar-bottom">
+            <div class="user-sidebar-card" id="sidebar-profile-click">
+                <img src="" alt="Avatar" class="sidebar-avatar" id="sidebar-avatar-img" style="width: 40px; height: 40px; border-radius: 12px; border: 2px solid var(--primary);">
+                <div class="user-info" style="overflow: hidden;">
+                    <p id="sidebar-user-name" style="color: white; font-weight: 800; font-size: 0.85rem; text-overflow: ellipsis; white-space: nowrap;">Carregando...</p>
+                    <small style="color: rgba(255,255,255,0.4); font-size: 0.7rem; font-weight: 700;">Elite Member</small>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ÁREA PRINCIPAL -->
+    <div class="app-container">
+        
+        <!-- HEADER ELITE -->
+        <header class="main-header">
+            <div class="header-left">
+                <div class="search-wrapper">
+                    <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+                    <input type="text" placeholder="Pesquisar matérias, PDFs ou simulados...">
+                </div>
+            </div>
+            
+            <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
+                <!-- NOTIFICAÇÕES -->
+                <div style="position: relative;">
+                    <button class="btn" style="background: #F1F5F9; color: var(--secondary); padding: 10px 15px;" onclick="App.toggleNotifDropdown()">
+                        <i class="fa-solid fa-bell"></i>
+                    </button>
+                    <div id="notif-dot" class="hidden" style="position: absolute; top: -4px; right: -4px; width: 12px; height: 12px; background: var(--error); border-radius: 50%; border: 2px solid white;"></div>
+                    
+                    <div id="notifDropdown" class="card" style="position: absolute; top: 60px; right: 0; width: 320px; display: none; z-index: 1000; padding: 0; overflow: hidden;">
+                        <div style="padding: 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #F8FAFC;">
+                            <h4 class="font-head" style="font-size: 0.9rem;">Notificações</h4>
+                            <button onclick="App.clearNotifs()" style="border: none; background: none; color: var(--accent); font-weight: 800; font-size: 0.75rem; cursor: pointer;">Limpar</button>
+                        </div>
+                        <div id="notif-list" style="max-height: 300px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+                <div style="width: 1px; height: 30px; background: var(--border);"></div>
+
+                <!-- PERFIL HEADER -->
+                <div class="header-profile" id="header-profile-click">
+                    <span id="header-user-name">...</span>
+                    <img src="" alt="Avatar" id="header-avatar-img" style="width: 42px; height: 42px; border-radius: 14px; border: 2px solid var(--primary); object-fit: cover;">
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            
+            <!-- ABA: DASHBOARD -->
+            <section id="tab-inicio" class="tab-content">
+                <div class="hero-premium">
+                    <div class="hero-info">
+                        <h1>Foco na <span class="text-gradient">Aprovação.</span></h1>
+                        <p>Gerencie suas 12 disciplinas e acompanhe sua evolução com ferramentas de nível elite.</p>
+                        <div style="display: flex; gap: 15px;">
+                            <button class="btn btn-primary" onclick="App.showTab('disciplinas')">Ver Trilhas</button>
+                            <button class="btn btn-secondary" onclick="App.showTab('vestibular')" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">Provas Oficiais</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="stats-overview" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                    <!-- Cards via JS -->
+                </div>
+            </section>
+
+            <!-- ABA: DISCIPLINAS -->
+            <section id="tab-disciplinas" class="tab-content">
+                <div style="margin-bottom: 35px;">
+                    <h2 class="font-head" style="font-size: 2rem;">Trilhas de Estudo</h2>
+                    <p style="color: var(--text-muted); font-weight: 600;">Domine cada conteúdo com revisões e questões práticas.</p>
+                </div>
+                <div class="grid-layout" id="disciplinas-grid"></div>
+            </section>
+
+            <!-- ABA: VESTIBULAR -->
+            <section id="tab-vestibular" class="tab-content">
+                <div style="margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end;">
+                    <div>
+                        <h2 class="font-head" style="font-size: 2rem;">Centro de Vestibular</h2>
+                        <p style="color: var(--text-muted); font-weight: 600;">Laboratório de Provas e Redação.</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; background: #E2E8F0; padding: 5px; border-radius: 12px;">
+                        <button class="btn active sub-link-btn" onclick="App.showSubTab('provas')" style="padding: 8px 15px; font-size: 0.8rem;">Provas</button>
+                        <button class="btn sub-link-btn" onclick="App.showSubTab('redacao')" style="padding: 8px 15px; font-size: 0.8rem;">Redação</button>
+                        <button class="btn sub-link-btn" onclick="App.showSubTab('arquivos')" style="padding: 8px 15px; font-size: 0.8rem;">Arquivos</button>
+                    </div>
+                </div>
+
+                <div id="sub-provas" class="sub-content-pane">
+                    <div class="pdf-grid" id="pdf-list-container"></div>
+                </div>
+
+                <div id="sub-redacao" class="sub-content-pane hidden">
+                    <div class="card" style="max-width: 900px; margin: 0 auto;">
+                        <input type="text" id="essay-title" placeholder="Título da Redação" style="width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 12px; border: 1px solid var(--border); font-size: 1.1rem; font-weight: 700; outline: none; background: #F8FAFC;">
+                        <textarea id="essay-editor" placeholder="Desenvolva seu texto..." style="width: 100%; height: 450px; padding: 25px; border-radius: 18px; border: 1.5px solid #F1F5F9; resize: none; font-size: 1.1rem; line-height: 1.8; outline: none; background: white;"></textarea>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 25px;">
+                            <span id="char-count" style="font-weight: 800; color: var(--text-muted);">0 caracteres</span>
+                            <button class="btn btn-primary" onclick="App.saveEssayAsPDF()">Exportar PDF</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="sub-arquivos" class="sub-content-pane hidden">
+                    <div class="pdf-grid" id="saved-essays-container"></div>
+                </div>
+            </section>
+
+            <!-- ABA: CRONOGRAMA -->
+            <section id="tab-agenda" class="tab-content">
+                <div class="calendar-header-elite">
+                    <h2 class="font-head" style="font-size: 2rem;">Cronograma Inteligente</h2>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <button class="btn btn-secondary" onclick="App.changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+                        <h3 id="calendar-month-year" class="font-head" style="min-width: 160px; text-align: center;">...</h3>
+                        <button class="btn btn-secondary" onclick="App.changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+                <div id="calendar-grid" class="calendar-grid-elite"></div>
+            </section>
+
+            <!-- ABA: CONFIGURAÇÕES (PAINEL PRO) -->
+            <section id="tab-configuracoes" class="tab-content">
+                <div class="account-container">
+                    <!-- Navegação Lateral do Painel -->
+                    <div class="account-nav">
+                        <div class="account-nav-item active" data-sec="perfil" onclick="App.switchAccountSection('perfil')">
+                            <i class="fa-solid fa-user-gear"></i> Perfil Público
+                        </div>
+                        <div class="account-nav-item" data-sec="seguranca" onclick="App.switchAccountSection('seguranca')">
+                            <i class="fa-solid fa-shield-halved"></i> Segurança
+                        </div>
+                    </div>
+
+                    <!-- Seção Perfil -->
+                    <div id="acc-perfil" class="account-section">
+                        <h3 class="section-title font-head">Meu Perfil</h3>
+                        <div class="profile-upload-container">
+                            <img src="" id="config-avatar-preview" class="profile-preview">
+                            <label for="photo-upload" class="btn-upload-photo">
+                                <i class="fa-solid fa-camera"></i>
+                            </label>
+                            <input type="file" id="photo-upload" class="hidden" accept="image/*" onchange="App.handlePhotoUpload(event)">
+                        </div>
+
+                        <div class="input-group">
+                            <label>Nome Completo</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-signature"></i>
+                                <input type="text" id="config-name">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="App.updateProfileName()" style="width: 100%;">Salvar Nome</button>
+                    </div>
+
+                    <!-- Seção Segurança -->
+                    <div id="acc-seguranca" class="account-section hidden">
+                        <h3 class="section-title font-head">Segurança da Conta</h3>
+                        
+                        <!-- Trocar E-mail -->
+                        <div style="margin-bottom: 40px; padding-bottom: 30px; border-bottom: 1px solid #F1F5F9;">
+                            <h4 class="font-head" style="margin-bottom: 15px; font-size: 1rem;">Alterar E-mail</h4>
+                            <div class="input-group">
+                                <label>Novo E-mail</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <input type="email" id="config-new-email" placeholder="novo@email.com">
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="App.verifyIdentity('email')" style="width: 100%;">Sincronizar E-mail</button>
+                        </div>
+
+                        <!-- Trocar Senha -->
+                        <div style="margin-bottom: 40px;">
+                            <h4 class="font-head" style="margin-bottom: 15px; font-size: 1rem;">Alterar Senha</h4>
+                            <div class="input-group">
+                                <label>Nova Senha</label>
+                                <div class="input-wrapper">
+                                    <i class="fa-solid fa-lock"></i>
+                                    <input type="password" id="config-new-pass" placeholder="••••••••">
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="App.verifyIdentity('senha')" style="width: 100%;">Atualizar Senha</button>
+                        </div>
+
+                        <button class="btn btn-danger" style="width: 100%;" onclick="App.deleteAccount()">Excluir Conta</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAIS CUSTOMIZADOS (SUBSTITUEM ALERTS/PROMPTS) -->
+    
+    <!-- 1. Modal de Input (Ex: Adicionar Meta) -->
+    <div class="modal-overlay" id="modalInput">
+        <div class="modal-card">
+            <header class="modal-header">
+                <h3 class="font-head" id="modalInputTitle">Adicionar Meta</h3>
+                <button onclick="App.closeModal('modalInput')" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </header>
+            <div style="padding: 30px;">
+                <p id="modalInputDesc" style="margin-bottom: 20px; color: var(--text-body); font-weight: 600;"></p>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <input type="text" id="modalInputValue" placeholder="Digite aqui...">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-primary" id="modalInputConfirm" style="flex: 1;">Confirmar</button>
+                    <button class="btn btn-secondary" onclick="App.closeModal('modalInput')" style="flex: 1;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Modal de Confirmação de Identidade (Senha) -->
+    <div class="modal-overlay" id="modalAuth">
+        <div class="modal-card" style="max-width: 400px;">
+            <header class="modal-header" style="background: var(--error);">
+                <h3 class="font-head">Confirmar Identidade</h3>
+            </header>
+            <div style="padding: 30px;">
+                <p style="margin-bottom: 20px; color: var(--text-body); font-weight: 600; text-align: center;">Para sua segurança, confirme sua senha atual:</p>
+                <div class="input-group">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-shield-lock"></i>
+                        <input type="password" id="modalAuthPass" placeholder="Senha Atual">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn btn-primary" id="modalAuthConfirm" style="flex: 1; background: var(--secondary); color: white;">Verificar</button>
+                    <button class="btn btn-ghost" onclick="App.closeModal('modalAuth')" style="flex: 1;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Modal de Revisão -->
+    <div class="modal-overlay" id="revisionModal">
+        <div class="modal-card" style="max-width: 800px;">
+            <header class="modal-header">
+                <h3 id="rev-title" class="font-head">Tópico</h3>
+                <button onclick="App.closeRevision()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </header>
+            <div style="padding: 30px;">
+                <div style="border-radius: 20px; overflow: hidden; background: #000;">
+                    <iframe id="rev-video" src="" style="width: 100%; aspect-ratio: 16/9; border: none;" allowfullscreen></iframe>
+                </div>
+                <div style="margin-top: 25px;">
+                    <p id="rev-desc" style="line-height: 1.7; color: var(--text-body); font-size: 1.05rem;"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

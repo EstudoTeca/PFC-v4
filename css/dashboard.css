@@ -1,0 +1,174 @@
+/* ============================================================
+   ESTUDOTECA V11 - MÓDULOS DE INTERFACE INTERNA
+   ============================================================ */
+
+/* --- 1. HERO BANNER ELITE --- */
+.hero-premium {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+    border-radius: var(--radius-lg);
+    padding: 55px;
+    color: white;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-premium);
+    position: relative;
+    overflow: hidden;
+}
+.hero-premium::after {
+    content: "";
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+    opacity: 0.5;
+}
+.hero-info h1 { font-size: 2.8rem; letter-spacing: -1.5px; margin-bottom: 15px; }
+.hero-info p { font-size: 1.1rem; opacity: 0.8; max-width: 550px; margin-bottom: 25px; }
+
+/* --- 2. GRADE DE DISCIPLINAS --- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+.subject-card-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.subject-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.subject-header i {
+    width: 52px; height: 52px;
+    background: rgba(255, 183, 3, 0.1);
+    color: var(--primary);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+}
+.subject-header h3 { font-size: 1.2rem; font-weight: 800; color: var(--secondary); }
+
+.subject-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+/* --- 3. PAINEL DE CONTA (PRO VIEW) --- */
+.account-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: start;
+}
+.account-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: sticky;
+    top: 120px;
+}
+.account-nav-item {
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.account-nav-item:hover { background: #F1F5F9; color: var(--secondary); }
+.account-nav-item.active { background: white; color: var(--primary); box-shadow: var(--shadow-sm); }
+
+.account-section {
+    background: white;
+    padding: 40px;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    animation: tabEnter 0.4s ease;
+}
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #F1F5F9;
+    padding-bottom: 15px;
+}
+
+/* --- 4. CALENDÁRIO ELITE --- */
+.calendar-header-elite {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.calendar-grid-elite {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+.day-cell-elite {
+    min-height: 110px;
+    padding: 12px;
+    border: 0.5px solid #F1F5F9;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.day-cell-elite:hover { background: #F8FBFF; }
+.day-cell-elite.today { background: #FFFBEB; border: 1.5px solid var(--primary); }
+.day-cell-elite .task-indicator {
+    width: 100%;
+    margin-top: 8px;
+    padding: 4px 8px;
+    background: var(--primary);
+    color: var(--secondary);
+    font-size: 0.65rem;
+    font-weight: 800;
+    border-radius: 6px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* --- 5. CENTRO DE PDFs --- */
+.pdf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+}
+.pdf-card {
+    background: white;
+    padding: 30px;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.pdf-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: var(--shadow-premium); }
+.pdf-card i { font-size: 2.8rem; color: #EF4444; margin-bottom: 15px; display: block; }
+.pdf-card span { font-weight: 800; font-size: 0.9rem; color: var(--secondary); }
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 900px) {
+    .account-container { grid-template-columns: 1fr; }
+    .account-nav { flex-direction: row; overflow-x: auto; position: static; }
+    .hero-premium { padding: 35px; }
+    .hero-info h1 { font-size: 2.1rem; }
+}
