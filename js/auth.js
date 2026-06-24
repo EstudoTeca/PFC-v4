@@ -1,5 +1,5 @@
 /* ============================================================
-   js/auth.js - LÓGICA DE ACESSO ELITE
+   js/auth.js - LÓGICA DE ACESSO E SESSÃO ELITE
    ============================================================ */
 
 const App = {
@@ -7,17 +7,17 @@ const App = {
 
     // 1. INICIALIZAÇÃO
     init() {
-        console.log("🔒 Auth Module v11.0 - Sistema de Acesso Ativo");
+        console.log("🔒 Auth Module v11.1 - Sistema de Acesso Ativo");
         
-        // Verifica se já está logado
-        if (apiService.isAuthenticated()) {
+        // Se o usuário já estiver logado, redireciona direto para o Dashboard
+        if (localStorage.getItem('token')) {
             window.location.href = 'index.html';
             return;
         }
 
         this.setupEventListeners();
         
-        // Foco inicial no e-mail para melhor UX
+        // Foco automático no e-mail para agilizar o acesso
         const emailInput = document.getElementById('authEmail');
         if (emailInput) emailInput.focus();
     },
@@ -35,10 +35,11 @@ const App = {
         const forgotLink = document.getElementById('forgotLink');
         const form = document.getElementById('authForm');
 
-        form.reset(); // Limpa campos ao trocar
+        // Limpa o formulário ao trocar de modo para evitar erros de dados
+        form.reset();
 
         if (!this.isLoginMode) {
-            // Configura UI para MODO CADASTRO
+            // Ajusta UI para MODO CADASTRO
             title.innerText = "Crie sua conta Elite";
             subtitle.innerText = "Junte-se à plataforma mais avançada para vestibulandos.";
             btnText.innerText = "Finalizar Cadastro";
@@ -48,7 +49,7 @@ const App = {
             forgotLink.classList.add('hidden');
             document.getElementById('regName').required = true;
         } else {
-            // Configura UI para MODO LOGIN
+            // Ajusta UI para MODO LOGIN
             title.innerText = "Bem-vindo à Elite";
             subtitle.innerText = "Insira suas credenciais para acessar a plataforma.";
             btnText.innerText = "Acessar Plataforma";
@@ -60,7 +61,7 @@ const App = {
         }
     },
 
-    // 3. MOSTRAR/ESCONDER SENHA
+    // 3. MOSTRAR/ESCONDER SENHA (VISUAL)
     togglePassword() {
         const passInput = document.getElementById('authPass');
         const eyeIcon = document.getElementById('eyeIcon');
@@ -74,7 +75,7 @@ const App = {
         }
     },
 
-    // 4. ESCUTADORES DE EVENTOS
+    // 4. CONFIGURAÇÃO DE EVENTOS
     setupEventListeners() {
         const form = document.getElementById('authForm');
         
@@ -89,25 +90,25 @@ const App = {
 
             try {
                 if (this.isLoginMode) {
-                    // Executa Fluxo de Login
+                    // FLUXO DE LOGIN
                     const user = await apiService.login(email, password);
                     notify(`Bem-vindo, ${user.name.split(' ')[0]}! Acessando sistema...`, "success");
                     
-                    // Redireciona para o Dashboard após feedback visual
+                    // Redireciona após pequeno delay para o usuário ver a mensagem de sucesso
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 1200);
 
                 } else {
-                    // Executa Fluxo de Registro
+                    // FLUXO DE REGISTRO
                     if (name.trim().length < 3) {
                         throw new Error("Por favor, insira seu nome completo.");
                     }
                     
                     await apiService.register(name, email, password);
-                    notify("Conta Elite criada! Agora você já pode entrar.", "success");
+                    notify("Conta Elite criada! Você já pode entrar.", "success");
                     
-                    // Retorna para o modo login automaticamente
+                    // Retorna para o modo login para o usuário entrar com as novas credenciais
                     setTimeout(() => {
                         this.toggleMode();
                         this.setLoading(false);
@@ -121,7 +122,7 @@ const App = {
         });
     },
 
-    // 5. FEEDBACK DE CARREGAMENTO NO BOTÃO
+    // 5. FEEDBACK VISUAL DE CARREGAMENTO NO BOTÃO
     setLoading(active) {
         const btn = document.getElementById('btnAuth');
         const btnText = document.getElementById('btnText');
@@ -129,7 +130,7 @@ const App = {
         if (active) {
             btn.disabled = true;
             btn.style.opacity = "0.7";
-            btnText.innerText = "Sincronizando...";
+            btnText.innerText = "Processando...";
         } else {
             btn.disabled = false;
             btn.style.opacity = "1";

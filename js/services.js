@@ -6,6 +6,7 @@ const API_URL = "http://localhost:3000/api";
 
 /**
  * SISTEMA GLOBAL DE NOTIFICAÇÕES (TOASTS)
+ * Cria alertas visuais elegantes no canto da tela.
  */
 function notify(message, type = 'success') {
     const container = document.getElementById('toast-container');
@@ -13,12 +14,19 @@ function notify(message, type = 'success') {
 
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
+    
+    // Ícone dinâmico baseado no tipo de mensagem
     const icon = type === 'success' ? 'fa-circle-check' : 
                  type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info';
 
-    toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${message}</span>`;
+    toast.innerHTML = `
+        <i class="fa-solid ${icon}"></i>
+        <span>${message}</span>
+    `;
+
     container.appendChild(toast);
 
+    // Remove automaticamente após 4 segundos com animação
     setTimeout(() => {
         toast.style.opacity = '0';
         toast.style.transform = 'translateX(50px)';
@@ -28,6 +36,7 @@ function notify(message, type = 'success') {
 
 /**
  * OBJETO DE SERVIÇOS API
+ * Gerencia chamadas ao backend Node.js
  */
 const apiService = {
     
@@ -40,6 +49,7 @@ const apiService = {
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Falha no login");
+        
         this.saveSession(data.token, data.user);
         return data.user;
     },
@@ -55,21 +65,24 @@ const apiService = {
         return data;
     },
 
-    // --- SEGURANÇA E CONTA (REFINADO) ---
+    // --- SEGURANÇA E CONTA (RECURSOS PRO) ---
     
-    // Valida a senha antes de permitir mudanças críticas
+    // Valida se a senha atual confere antes de trocas críticas
     async verifyPassword(password) {
-        const response = await fetch(`${API_URL}/auth/verify-password`, {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify({ password })
-        });
-        return response.ok;
+        try {
+            const response = await fetch(`${API_URL}/auth/verify-password`, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ password })
+            });
+            return response.ok;
+        } catch (e) { return false; }
     },
 
+    // Atualiza nome ou foto (perfil público)
     async updateProfile(userId, updateData) {
         const response = await fetch(`${API_URL}/user/${userId}`, {
             method: "PUT",
@@ -80,11 +93,16 @@ const apiService = {
             body: JSON.stringify(updateData)
         });
         const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Erro ao atualizar perfil");
+        
+        // Atualiza dados locais caso tenham mudado
         if (data.name) localStorage.setItem('user_name', data.name);
         if (data.photo) localStorage.setItem('user_photo', data.photo);
+        
         return data;
     },
 
+    // Atualiza e-mail exigindo a senha atual
     async updateEmail(newEmail, currentPassword) {
         const response = await fetch(`${API_URL}/auth/update-email`, {
             method: "PUT",
@@ -96,10 +114,12 @@ const apiService = {
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Erro ao atualizar e-mail");
+        
         localStorage.setItem('user_email', newEmail);
         return data;
     },
 
+    // Atualiza senha exigindo a antiga
     async updatePassword(oldPassword, newPassword) {
         const response = await fetch(`${API_URL}/auth/update-password`, {
             method: "PUT",
@@ -119,37 +139,11 @@ const apiService = {
             method: "DELETE",
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         });
-        return response.ok;
+        if (!response.ok) throw new Error("Não foi possível excluir a conta.");
+        return true;
     },
 
-    // --- EVENTOS / CRONOGRAMA ---
-    async getEvents() {
-        const response = await fetch(`${API_URL}/events`, {
-            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-        });
-        return response.ok ? await response.json() : [];
-    },
-
-    async saveEvent(eventData) {
-        const response = await fetch(`${API_URL}/events`, {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem('token')}`
-            },
-            body: JSON.stringify(eventData)
-        });
-        return await response.json();
-    },
-
-    async deleteEvent(eventId) {
-        await fetch(`${API_URL}/events/${eventId}`, {
-            method: "DELETE",
-            headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
-        });
-    },
-
-    // --- AUXILIARES ---
+    // --- AUXILIARES DE SESSÃO ---
     saveSession(token, user) {
         localStorage.setItem('token', token);
         localStorage.setItem('user_id', user.id);

@@ -1,8 +1,8 @@
 /* ============================================================
-   ESTUDOTECA V11 - BIBLIOTECA DE COMPONENTES REFINADA
+   ESTUDOTECA V11 - BIBLIOTECA DE COMPONENTES SaaS ELITE
    ============================================================ */
 
-/* --- 1. SISTEMA DE BOTÕES SaaS --- */
+/* --- 1. SISTEMA DE BOTÕES --- */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -64,19 +64,18 @@
     border-color: rgba(33, 158, 188, 0.2);
 }
 
-/* --- 3. INPUTS PREMIUM (PAINEL DE CONTA) --- */
+/* --- 3. INPUTS PREMIUM (PAINEL DE CONTA / MODAIS) --- */
 .input-group {
-    margin-bottom: 20px;
-    text-align: left;
+    margin-bottom: 22px;
 }
 .input-group label {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 800;
     color: var(--secondary);
     margin-bottom: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
 }
 .input-wrapper {
     position: relative;
@@ -89,6 +88,7 @@
     color: var(--text-muted);
     font-size: 1rem;
     transition: var(--transition);
+    pointer-events: none; /* Garante que o clique passe para o input */
 }
 .input-wrapper input {
     width: 100%;
@@ -110,12 +110,12 @@
 }
 .input-wrapper input:focus + i { color: var(--primary); }
 
-/* --- 4. FOTO DE PERFIL (EDITÁVEL) --- */
+/* --- 4. FOTO DE PERFIL (UPLOAD E PREVIEW) --- */
 .profile-upload-container {
     position: relative;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 30px;
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 35px;
 }
 .profile-preview {
     width: 100%;
@@ -124,13 +124,14 @@
     object-fit: cover;
     border: 4px solid white;
     box-shadow: var(--shadow-md);
+    background: #f1f5f9;
 }
 .btn-upload-photo {
     position: absolute;
     bottom: -5px;
     right: -5px;
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
     background: var(--primary);
     color: var(--secondary);
     border-radius: 12px;
@@ -142,21 +143,33 @@
     transition: var(--transition);
     box-shadow: var(--shadow-sm);
 }
-.btn-upload-photo:hover { transform: scale(1.1); background: var(--primary-hover); }
+.btn-upload-photo:hover { 
+    transform: scale(1.1) rotate(5deg); 
+    background: var(--primary-hover); 
+}
 
-/* --- 5. MODAL CUSTOMIZADO (SUBSTITUTO DO ALERT) --- */
+/* --- 5. MODAIS CUSTOMIZADOS (CORRIGIDO) --- */
+/* Base do Modal: display none para não bloquear o site */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(1, 22, 39, 0.7);
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: rgba(1, 22, 39, 0.75);
     backdrop-filter: blur(8px);
-    display: none;
+    display: none; /* Importante: começa oculto */
     align-items: center;
     justify-content: center;
     z-index: 5000;
     padding: 20px;
+    pointer-events: auto; /* Permite cliques apenas quando ativo */
 }
-.modal-overlay.active { display: flex; }
+
+/* Estado Ativo: O JS deve adicionar a classe active e mudar display para flex */
+.modal-overlay.active { 
+    display: flex; 
+}
 
 .modal-card {
     background: white;
@@ -169,20 +182,20 @@
 }
 
 @keyframes modalScale {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .modal-header {
     background: var(--secondary);
-    padding: 20px 30px;
+    padding: 22px 30px;
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* --- 6. TOASTS --- */
+/* --- 6. TOASTS (ALERTAS REFINADOS) --- */
 #toast-container {
     position: fixed;
     top: 30px;
@@ -206,6 +219,24 @@
     animation: toastIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
 @keyframes toastIn {
-    from { transform: translateX(120%); }
-    to { transform: translateX(0); }
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Estados de Toast */
+.toast.error { border-left-color: var(--error); }
+.toast.success { border-left-color: var(--success); }
+
+/* --- 7. PROGRESSO --- */
+.progress-container {
+    background: #F1F5F9;
+    height: 10px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--primary));
+    border-radius: 20px;
+    transition: width 1s ease;
 }

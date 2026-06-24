@@ -57,7 +57,7 @@
                 </header>
 
                 <!-- Mock de Social Login (Visual Estético) -->
-                <button class="btn" style="width: 100%; padding: 16px; border: 1.5px solid #E2E8F0; background: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 700; color: var(--secondary); cursor: pointer; transition: 0.3s; margin-bottom: 30px;">
+                <button class="btn-social-google" style="width: 100%; padding: 16px; border: 1.5px solid #E2E8F0; background: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; font-weight: 700; color: var(--secondary); cursor: pointer; transition: 0.3s; margin-bottom: 30px; font-family: inherit;">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" width="20">
                     Entrar com o Google
                 </button>
@@ -68,7 +68,7 @@
                 </div>
 
                 <form id="authForm">
-                    <!-- Campo Nome (Apenas Cadastro) -->
+                    <!-- Campo Nome (Exibido apenas no Modo Cadastro via JS) -->
                     <div class="input-group hidden" id="nameGroup">
                         <label>Nome Completo</label>
                         <div class="input-wrapper">
@@ -88,7 +88,7 @@
                     <div class="input-group">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                             <label style="margin-bottom: 0;">Senha</label>
-                            <a href="#" style="color: var(--accent); font-weight: 800; font-size: 0.75rem; text-decoration: none;" id="forgotLink">Esqueceu?</a>
+                            <a href="#" style="color: var(--accent); font-weight: 800; font-size: 0.75rem; text-decoration: none;" id="forgotLink">Esqueceu a senha?</a>
                         </div>
                         <div class="input-wrapper">
                             <i class="fa-solid fa-lock"></i>
