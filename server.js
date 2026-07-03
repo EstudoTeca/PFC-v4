@@ -31,8 +31,8 @@ if (!MONGO_URI || !JWT_SECRET) {
 }
 
 // --- 3. CONFIGURAÇÃO IA (GEMINI) ---
-const genAI = new GoogleGenerativeAI(GEMINI_KEY || "");
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const genAI = new GoogleGenerativeAI("AQ.Ab8RN6JM-u0AwMdcNStj0j5NKL7oE97GVFbOgbp-a8LQ1qBvOg");
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 // --- 4. CONEXÃO COM O BANCO DE DADOS ---
 mongoose.connect(MONGO_URI)
@@ -201,12 +201,26 @@ app.delete('/api/user/:id', authenticateToken, async (req, res) => {
 
 app.post('/api/ai/tutor', authenticateToken, async (req, res) => {
     try {
+        // RADAR 1: Verifica se a chave tá sendo lida
+        console.log("🤖 Iniciando requisição para a IA...");
+        if(!GEMINI_KEY) {
+            console.log("❌ ERRO: A chave do Gemini está VAZIA ou não foi lida do .env!");
+        }
+
         const { prompt, subject } = req.body;
-        const context = `Tutor EstudoTeca: Explique sobre ${subject} de forma simples: ${prompt}`;
+        console.log(`📝 O aluno perguntou: ${prompt}`);
+
+        // RADAR 2: Envia para o Google
+        const context = `Atue como um Tutor amigável do EstudoTeca. Responda de forma clara e resumida: ${prompt}`;
         const result = await model.generateContent(context);
         const response = await result.response;
+        
+        console.log("✅ Resposta gerada com sucesso!");
         res.json({ answer: response.text() });
+
     } catch (err) {
+        // RADAR 3: O ERRO REAL APARECE AQUI NO TERMINAL DO VS CODE
+        console.error("❌ ERRO REAL DO GEMINI NO BACKEND:", err.message || err);
         res.status(500).json({ error: "IA temporariamente indisponível." });
     }
 });
@@ -224,6 +238,40 @@ app.post('/api/events', authenticateToken, async (req, res) => {
         await event.save();
         res.status(201).json(event);
     } catch (e) { res.status(500).send(); }
+});
+
+// --- GERAÇÃO DE QUIZ COM INTELIGÊNCIA ARTIFICIAL ---
+app.post('/api/ai/quiz', authenticateToken, async (req, res) => {
+    try {
+        const { topic } = req.body;
+        console.log(`🤖 IA montando simulado sobre: ${topic}`);
+
+        // O prompt obriga a IA a devolver um código JSON perfeito para o site ler
+        const context = `Atue como um professor de vestibular elaborando uma prova. 
+        Crie 3 questões de múltipla escolha sobre o tema: "${topic}".
+        Você DEVE retornar APENAS um array em formato JSON exato, sem formatação markdown, sem crases, sem a palavra json. 
+        Use estritamente esta estrutura:
+        [
+            { "q": "Texto da pergunta aqui?", "options": ["Opção A", "Opção B", "Opção C", "Opção D"], "answer": 0 }
+        ]
+        Onde 'answer' é o número (0, 1, 2 ou 3) que corresponde à resposta certa do array 'options'. Retorne APENAS o JSON válido.`;
+
+        const result = await model.generateContent(context);
+        const response = await result.response;
+        
+        let aiText = response.text().trim();
+        
+        // Limpeza de segurança caso a IA mande aspas sujas
+        if (aiText.startsWith("```json")) aiText = aiText.replace(/```json/g, "").replace(/```/g, "");
+        if (aiText.startsWith("```")) aiText = aiText.replace(/```/g, "");
+        
+        const quizData = JSON.parse(aiText); // Transforma o texto da IA em código real
+
+        res.json(quizData);
+    } catch (err) {
+        console.error("❌ ERRO AO GERAR QUIZ:", err.message || err);
+        res.status(500).json({ error: "Falha ao gerar simulado." });
+    }
 });
 
 // --- INICIALIZAÇÃO ---

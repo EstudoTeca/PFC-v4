@@ -94,12 +94,12 @@
 
         <main class="main-content">
             
-            <!-- ABA: DASHBOARD -->
+           <!-- ABA: DASHBOARD INICIAL -->
             <section id="tab-inicio" class="tab-content">
                 <div class="hero-premium">
                     <div class="hero-info">
                         <h1>Foco na <span class="text-gradient">Aprovação.</span></h1>
-                        <p>Gerencie suas 12 disciplinas e acompanhe sua evolução com ferramentas de nível elite.</p>
+                        <p>Gerencie suas disciplinas, resolva simulados inéditos com IA e acompanhe sua evolução em tempo real.</p>
                         <div style="display: flex; gap: 15px;">
                             <button class="btn btn-primary" onclick="App.showTab('disciplinas')">Ver Trilhas</button>
                             <button class="btn btn-secondary" onclick="App.showTab('vestibular')" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">Provas Oficiais</button>
@@ -107,8 +107,28 @@
                     </div>
                 </div>
 
+                <!-- Estatísticas Globais -->
                 <div id="stats-overview" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
                     <!-- Cards via JS -->
+                </div>
+
+                <!-- NOVA ÁREA: Painel de Controle de Hoje -->
+                <div style="margin-top: 30px; display: grid; grid-template-columns: 2fr 1fr; gap: 25px;" class="home-bottom-panels">
+                    <div class="card">
+                        <h3 class="font-head" style="margin-bottom: 15px; color: var(--secondary);">
+                            <i class="fa-solid fa-bullseye" style="color:var(--primary);"></i> Sua Meta de Hoje
+                        </h3>
+                        <div id="home-today-task" style="padding: 20px; background: #F8FAFC; border-radius: 12px; font-weight: 600; color: var(--secondary); font-size: 1.1rem; border: 1px dashed var(--border);">
+                            Carregando...
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="background: var(--secondary); color: white; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+                        <h3 class="font-head" style="margin-bottom: 5px; color: rgba(255,255,255,0.8); font-size: 1rem;">
+                            <i class="fa-solid fa-fire" style="color:var(--primary);"></i> Ofensiva de Estudos
+                        </h3>
+                        <h1 style="font-size: 3.5rem; margin:0; color: var(--primary);">3 <span style="font-size: 1rem; color: white; font-weight: 600;">Dias</span></h1>
+                    </div>
                 </div>
             </section>
 
@@ -120,6 +140,57 @@
                 </div>
                 <div class="grid-layout" id="disciplinas-grid"></div>
             </section>
+            <!-- ABA: TRILHA DA DISCIPLINA (Estilo Página de Canal) -->
+            <section id="tab-trilha" class="tab-content">
+                
+                <!-- Cabeçalho de Navegação (Botão Voltar + Título) -->
+                <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 35px; background: white; padding: 20px 30px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: var(--shadow-sm);">
+                    <button class="btn btn-secondary" onclick="App.showTab('disciplinas')" style="padding: 10px 15px; border-radius: 12px;">
+                        <i class="fa-solid fa-arrow-left"></i> Voltar
+                    </button>
+                    
+                    <div style="width: 1px; height: 30px; background: var(--border);"></div>
+                    
+                    <div id="trilha-header-icon" style="padding: 12px; border-radius: 14px; color: white; font-size: 1.5rem; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                    
+                    <div>
+                        <h2 class="font-head" id="trilha-title" style="font-size: 1.8rem; margin: 0; line-height: 1;">Nome da Disciplina</h2>
+                        <p style="color: var(--text-muted); font-weight: 600; font-size: 0.9rem; margin: 5px 0 0 0;">Painel de Estudos e Trilhas</p>
+                    </div>
+                </div>
+
+                <!-- Layout Principal (Conteúdo na Esquerda / Links na Direita) -->
+                <div class="trilha-layout" style="display: flex; gap: 30px; align-items: flex-start;">
+                    
+                    <!-- ESQUERDA: Anos e Assuntos (Ocupa o maior espaço) -->
+                    <div style="flex: 1;">
+                        <!-- Abas 1, 2 e 3 Ano -->
+                        <div style="display: flex; gap: 10px; background: #E2E8F0; padding: 6px; border-radius: 16px; margin-bottom: 25px;">
+                            <button class="btn active" id="trilha-ano-1" onclick="App.loadTrilhaYear(1)" style="flex: 1; border-radius: 12px; font-weight: 800; color: var(--secondary); transition: 0.3s;">1º Ano</button>
+                            <button class="btn" id="trilha-ano-2" onclick="App.loadTrilhaYear(2)" style="flex: 1; border-radius: 12px; font-weight: 800; background: transparent; color: var(--text-muted); transition: 0.3s;">2º Ano</button>
+                            <button class="btn" id="trilha-ano-3" onclick="App.loadTrilhaYear(3)" style="flex: 1; border-radius: 12px; font-weight: 800; background: transparent; color: var(--text-muted); transition: 0.3s;">3º Ano</button>
+                        </div>
+
+                        <!-- Lista de Assuntos -->
+                        <div id="trilha-content-list" style="display: flex; flex-direction: column; gap: 15px;">
+                            <!-- Assuntos entram via JS -->
+                        </div>
+                    </div>
+
+                    <!-- DIREITA: Barra Lateral de Videoaulas (A "Beirada") -->
+                    <div class="card" style="width: 320px; position: sticky; top: 100px; padding: 25px;">
+                        <h4 class="font-head" style="margin-bottom: 20px; color: var(--secondary); display: flex; align-items: center; gap: 10px;">
+                            <i class="fa-brands fa-youtube" style="color: #FF0000; font-size: 1.5rem;"></i> Aulas em Destaque
+                        </h4>
+                        <div id="trilha-sidebar-links" style="display: flex; flex-direction: column; gap: 15px;">
+                            <!-- Links entram via JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
 
             <!-- ABA: VESTIBULAR -->
             <section id="tab-vestibular" class="tab-content">
@@ -129,6 +200,7 @@
                         <button class="btn active sub-link-btn" onclick="App.showSubTab(event, 'provas')">Provas</button>
                         <button class="btn sub-link-btn" onclick="App.showSubTab(event, 'redacao')">Redação</button>
                         <button class="btn sub-link-btn" onclick="App.showSubTab(event, 'arquivos')">Arquivos</button>
+                        <button class="btn sub-link-btn" onclick="App.showSubTab(event, 'nota1000')"><i class="fa-solid fa-medal" style="color: #F59E0B;"></i> Nota 1000</button>
                     </div>
                 </div>
 
@@ -150,12 +222,64 @@
                 <div id="sub-arquivos" class="sub-content-pane hidden">
                     <div class="pdf-grid" id="saved-essays-container"></div>
                 </div>
+
+                <!-- NOVA ABA: REDAÇÕES NOTA 1000 -->
+                <div id="sub-nota1000" class="sub-content-pane hidden">
+                    <div style="margin-bottom: 25px;">
+                        <p style="color: var(--text-muted); font-weight: 600; font-size: 1.1rem;">Inspire-se com redações reais que atingiram a pontuação máxima.</p>
+                    </div>
+                    <div class="grid-layout" id="nota1000-container" style="grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));">
+                        <!-- Cards das Redações 1000 via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABA: PRATICAR (SIMULADOS E QUIZ) -->
+            <section id="tab-atividades" class="tab-content">
+                <div class="hero-premium" style="background: linear-gradient(135deg, var(--accent) 0%, #1E40AF 100%); padding: 40px; margin-bottom: 30px;">
+                    <div class="hero-info">
+                        <h2 style="font-size: 2.2rem; color: white; margin-bottom: 10px;" id="quiz-header-title">Centro de Treinamento</h2>
+                        <p style="color: rgba(255,255,255,0.8); font-weight: 500;" id="quiz-header-desc">Selecione uma matéria nas Trilhas para começar a praticar.</p>
+                    </div>
+                </div>
+
+                <!-- O que aparece quando o aluno clica no menu direto sem escolher matéria -->
+                <div id="quiz-empty-state" style="text-align: center; padding: 60px 20px;">
+                    <i class="fa-solid fa-dumbbell" style="font-size: 4rem; color: #E2E8F0; margin-bottom: 20px;"></i>
+                    <h3 style="color: var(--secondary); margin-bottom: 10px;">Nenhum simulado ativo</h3>
+                    <p style="color: var(--text-muted); font-weight: 500;">Vá até a aba de Disciplinas, escolha uma Trilha e clique em "Praticar".</p>
+                    <button class="btn btn-secondary" style="margin-top: 20px;" onclick="App.showTab('disciplinas')">Ver Disciplinas</button>
+                </div>
+
+                <!-- A interface do Simulado Real -->
+                <div id="quiz-container" class="card hidden" style="max-width: 800px; margin: 0 auto; padding: 40px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; color: var(--text-muted); font-weight: 800; font-size: 0.85rem;">
+                        <span id="quiz-progress-text">Questão 1 de 3</span>
+                        <span id="quiz-score-text">Acertos: 0</span>
+                    </div>
+                    
+                    <h3 id="quiz-question-text" style="font-size: 1.3rem; color: var(--secondary); margin-bottom: 30px; line-height: 1.5;">Carregando questão...</h3>
+                    
+                    <div id="quiz-options" style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px;">
+                        <!-- Opções A, B, C, D entram aqui via JS -->
+                    </div>
+                    
+                    <button id="quiz-submit-btn" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 1.1rem; display: none;" onclick="App.nextQuestion()">
+                        Confirmar Resposta <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
             </section>
 
             <!-- ABA: CRONOGRAMA -->
+            
             <section id="tab-agenda" class="tab-content">
                 <div class="calendar-header-elite">
-                    <h2 class="font-head" style="font-size: 2rem;">Cronograma Inteligente</h2>
+                    <div>
+                        <h2 class="font-head" style="font-size: 2rem;">Cronograma Inteligente</h2>
+                        <button class="btn btn-primary" style="margin-top: 10px; font-size: 0.85rem; padding: 10px 15px;" onclick="App.generateAICalendar()">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Auto-Preencher com IA
+                        </button>
+                    </div>
                     <div style="display: flex; gap: 15px; align-items: center;">
                         <button class="btn btn-secondary" onclick="App.changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
                         <h3 id="calendar-month-year" class="font-head" style="min-width: 160px; text-align: center;">...</h3>
@@ -249,6 +373,8 @@
     </div>
 
     <!-- MODAIS CUSTOMIZADOS -->
+
+
     
     <!-- Modal de Input (Para Meta do Cronograma) -->
     <div class="modal-overlay" id="modalInput" style="display: none;">
@@ -309,6 +435,32 @@
                     <p id="rev-desc" style="line-height: 1.7; color: var(--text-body); font-size: 1.05rem;"></p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- TUTOR ELITE IA (BOTÃO FLUTUANTE E PAINEL) -->
+    <button id="ai-chat-btn" onclick="App.toggleAIChat()">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <div id="ai-chat-panel" class="hidden">
+        <div class="ai-chat-header">
+            <div>
+                <h4 style="margin:0; color:white; display:flex; align-items:center; gap:8px;">
+                    <i class="fa-solid fa-sparkles"></i> Tutor Elite IA
+                </h4>
+                <span style="font-size: 0.7rem; color: var(--primary); font-weight: 800;">Online agora</span>
+            </div>
+            <button onclick="App.toggleAIChat()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        
+        <div id="ai-chat-messages">
+            <div class="msg ai-msg">Olá! Sou seu Tutor Elite integrado à IA. Como posso acelerar sua aprovação hoje?</div>
+        </div>
+        
+        <div class="ai-chat-input">
+            <input type="text" id="ai-user-input" placeholder="Pergunte qualquer coisa..." onkeypress="if(event.key === 'Enter') App.sendAIMessage()">
+            <button onclick="App.sendAIMessage()"><i class="fa-solid fa-paper-plane"></i></button>
         </div>
     </div>
 
