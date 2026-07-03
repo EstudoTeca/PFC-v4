@@ -1,0 +1,300 @@
+/* ============================================================
+   ESTUDOTECA V11 - INTERFACE INTERNA ELITE (DASHBOARD)
+   ============================================================ */
+
+/* --- 1. HERO BANNER (BOAS-VINDAS) --- */
+.hero-premium {
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+    border-radius: var(--radius-lg);
+    padding: 55px;
+    color: white;
+    margin-bottom: 40px;
+    box-shadow: var(--shadow-premium);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efeito de iluminação radial no fundo do Hero */
+.hero-premium::after {
+    content: "";
+    position: absolute;
+    top: -50%; 
+    right: -10%;
+    width: 450px; 
+    height: 450px;
+    background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.hero-info h1 { 
+    font-size: 3rem; 
+    letter-spacing: -1.5px; 
+    margin-bottom: 15px; 
+    line-height: 1.1;
+}
+
+.hero-info p { 
+    font-size: 1.15rem; 
+    opacity: 0.85; 
+    max-width: 550px; 
+    margin-bottom: 30px; 
+}
+
+/* --- 2. GRADE DE DISCIPLINAS (CARDS) --- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.subject-card-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 25px;
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+}
+
+.subject-card-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-premium);
+    border-color: var(--primary);
+}
+
+.subject-card-premium:hover .card-arrow-icon {
+    background: var(--primary);
+    color: var(--secondary) !important;
+    transform: translateX(4px);
+}
+.subject-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.subject-header i {
+    width: 54px; 
+    height: 54px;
+    background: rgba(255, 183, 3, 0.12);
+    color: var(--primary);
+    border-radius: 16px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.subject-header h3 { 
+    font-size: 1.3rem; 
+    font-weight: 800; 
+    color: var(--secondary); 
+}
+
+.subject-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* --- 3. PAINEL DE CONTA (PRO VIEW - ABAS) --- */
+.account-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr; /* Coluna lateral de abas + Conteúdo */
+    gap: 40px;
+    align-items: start;
+}
+
+.account-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: sticky;
+    top: 120px;
+    background: white;
+    padding: 15px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.account-nav-item {
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-body);
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.account-nav-item i {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.account-nav-item:hover { 
+    background: #F1F5F9; 
+    color: var(--secondary); 
+}
+
+.account-nav-item.active { 
+    background: var(--secondary); 
+    color: white; 
+    box-shadow: var(--shadow-md); 
+}
+
+.account-section {
+    background: white;
+    padding: 45px;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    animation: tabEnter 0.4s ease forwards;
+}
+
+.section-title {
+    font-size: 1.6rem;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #F1F5F9;
+    padding-bottom: 15px;
+    color: var(--secondary);
+}
+
+/* --- 4. CRONOGRAMA INTELIGENTE (CALENDÁRIO) --- */
+.calendar-header-elite {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.calendar-grid-elite {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.day-cell-elite {
+    min-height: 120px;
+    padding: 15px;
+    border: 0.5px solid #F1F5F9;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day-cell-elite:hover { 
+    background: #F8FBFF; 
+}
+
+.day-cell-elite.today { 
+    background: #FFFBEB; 
+    border: 2px solid var(--primary); 
+    z-index: 2;
+}
+
+/* Indicador de tarefa dentro do dia */
+.task-indicator {
+    width: 100%;
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: var(--primary);
+    color: var(--secondary);
+    font-size: 0.7rem;
+    font-weight: 800;
+    border-radius: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+/* --- 5. CENTRO DE VESTIBULAR (PDFs) --- */
+.pdf-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.pdf-card {
+    background: white;
+    padding: 35px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.pdf-card:hover { 
+    border-color: var(--accent); 
+    transform: translateY(-8px); 
+    box-shadow: var(--shadow-premium); 
+}
+
+.pdf-card i { 
+    font-size: 3rem; 
+    color: #EF4444; 
+    margin-bottom: 18px; 
+    display: block; 
+}
+
+.pdf-card span { 
+    font-weight: 800; 
+    font-size: 1rem; 
+    color: var(--secondary); 
+}
+
+/* --- RESPONSIVIDADE --- */
+@media (max-width: 1024px) {
+    .account-container { 
+        grid-template-columns: 1fr; 
+    }
+    
+    .account-nav { 
+        flex-direction: row; 
+        overflow-x: auto; 
+        position: static; 
+        padding: 10px;
+    }
+    
+    .account-nav-item {
+        white-space: nowrap;
+        padding: 10px 15px;
+    }
+
+    .hero-premium { 
+        padding: 40px; 
+    }
+    
+    .hero-info h1 { 
+        font-size: 2.3rem; 
+    }
+}
+
+@media (max-width: 768px) {
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .pdf-grid {
+        grid-template-columns: 1fr;
+    }
+}
